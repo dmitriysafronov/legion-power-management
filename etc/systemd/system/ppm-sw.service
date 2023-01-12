@@ -5,7 +5,9 @@ Requires=power-profiles-daemon.service
 #RefuseManualStart=yes
 
 [Service]
+ExecStartPre=-/usr/bin/echo "1"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
 ExecStart=/usr/local/bin/ppm-sw
+ExecStopPost=-/usr/bin/echo "0"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
 Restart=on-failure
 
 [Install]

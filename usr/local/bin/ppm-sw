@@ -5,55 +5,67 @@ lpm_logger () {
     logger -t legion-power-management -s "$1"
 }
 
-# Governors
+# Governor
 
-set_governor_performance () {
-    for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor); do
-        echo "performance" > ${GOVERNOR}
-    done
-}
-
-set_governor_powersave () {
-    for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor); do
-        echo "powersave" > ${GOVERNOR}
-    done
+set_governor () {
+    case $1 in
+        performance|powersave)
+            for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor); do
+                echo "$1" > ${GOVERNOR}
+            done
+        ;;
+        *)
+          lpm_logger "Error in [scaling_governor] configuration!"
+        ;;
+    esac
 }
 
 # Energy Performance
 
-set_epp_performance () {
-    for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
-        echo "performance" > ${GOVERNOR}
-    done
+set_epp () {
+    case $1 in
+        performance|power)
+            for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
+                echo "$1" > ${GOVERNOR}
+            done
+        ;;
+        *)
+          lpm_logger "Error in [energy_performance_preference] configuration!"
+        ;;
+    esac
 }
 
-set_epp_power () {
-    for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
-        echo "power" > ${GOVERNOR}
-    done
+# HW Power profile
+
+set_hwpp () {
+    case $1 in
+        perf|balanced|quiet)
+            echo "$1" > /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
+        ;;
+        *)
+          lpm_logger "Error in [HW power profile] configuration!"
+        ;;
+    esac
 }
 
 # Profiles
 
 set_profile_performance () {
-    echo "perf"		> /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
-    echo "1"		> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-    set_governor_performance
-    set_epp_performance
+    set_hwpp perf
+    set_governor performance
+    set_epp performance
 }
 
 set_profile_balanced () {
-    echo "balanced"	> /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
-    echo "1"		> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-    set_governor_performance
-    set_epp_performance
+    set_hwpp balanced
+    set_governor performance
+    set_epp performance
 }
 
 set_profile_power-saver () {
-    echo "quiet"	> /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
-    echo "0"		> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-    set_governor_powersave
-    set_epp_power
+    set_hwpp quiet
+    set_governor powersave
+    set_epp power
 }
 
 # Monitor
@@ -72,7 +84,7 @@ dbus-monitor --system "type='signal',path='/net/hadess/PowerProfiles',member='Pr
                 set_profile_power-saver
                 ;;
             *)
-                echo ${POWER_PROFILE_SW}
+                lpm_logger "Error getting SW power profile: [${POWER_PROFILE_SW}]!"
                 ;;
         esac
     fi

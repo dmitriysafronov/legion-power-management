@@ -6,49 +6,48 @@ lpm_logger () {
 }
 
 # Governor
-
 set_governor () {
     case $1 in
         performance|powersave)
             for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor); do
                 echo "$1" > ${GOVERNOR}
             done
-        ;;
+            ;;
         *)
-          lpm_logger "Error in [scaling_governor] configuration!"
-        ;;
+            lpm_logger "Error in [scaling_governor] configuration!"
+            ;;
     esac
 }
 
 # Energy Performance
-
 set_epp () {
     case $1 in
         performance|power)
             for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
                 echo "$1" > ${GOVERNOR}
             done
-        ;;
+            ;;
         *)
-          lpm_logger "Error in [energy_performance_preference] configuration!"
-        ;;
+            lpm_logger "Error in [energy_performance_preference] configuration!"
+            ;;
     esac
 }
 
 # HW Power profile
-
 set_hwpp () {
     case $1 in
         perf|balanced|quiet)
             echo "$1" > /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
-        ;;
+            ;;
         *)
-          lpm_logger "Error in [HW power profile] configuration!"
-        ;;
+            lpm_logger "Error in [HW power profile] configuration!"
+            ;;
     esac
 }
 
-# Profiles
+#######################################################
+
+## Profiles
 
 set_profile_performance () {
     set_hwpp perf
@@ -68,8 +67,9 @@ set_profile_power-saver () {
     set_epp power
 }
 
-# Monitor
+#######################################################
 
+# Monitor
 dbus-monitor --system "type='signal',path='/net/hadess/PowerProfiles',member='PropertiesChanged'" | while read LINE; do
     POWER_PROFILE_SW=$(echo ${LINE} | grep 'variant' | sed -e 's/variant//g' -e 's/string//g' -e 's/\ //g' -e 's/"//g')
     if [[ -n "${POWER_PROFILE_SW}" ]]; then

@@ -35,18 +35,19 @@ set_epp () {
 
 # HW Power profile
 set_hwpp () {
-    case $1 in
-        perf|balanced|quiet)
-            echo "$1" > /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
-            ;;
-        *)
-            lpm_logger "Error in [HW power profile] configuration!"
-            ;;
-    esac
+    if [[ -f /proc/acpi/legion_call ]]; then
+        case $1 in
+            perf|balanced|quiet)
+                echo "$1" > /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
+                ;;
+            *)
+                lpm_logger "Error in [HW power profile] configuration!"
+                ;;
+        esac
+    fi
 }
 
 #######################################################
-
 ## Profiles
 
 set_profile_performance () {

@@ -1,0 +1,12 @@
+[Unit]
+Description=Power profile monitor - Hardware
+After=power-profiles-daemon.service
+Requires=power-profiles-daemon.service
+#RefuseManualStart=yes
+
+[Service]
+ExecStart=/usr/local/bin/ppm-hw
+Restart=on-failure
+
+[Install]
+WantedBy=power-profiles-daemon.service

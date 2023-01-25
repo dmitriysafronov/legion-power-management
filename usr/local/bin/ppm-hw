@@ -23,5 +23,5 @@ while true; do
     if [[ ${POWER_PROFILE_NEW} != ${POWER_PROFILE_OLD} ]]; then
         powerprofilesctl set "${POWER_PROFILE_NEW}"
     fi
-    sleep 1
+    sleep 5
 done

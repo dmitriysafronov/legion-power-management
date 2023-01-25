@@ -1,0 +1,10 @@
+[Unit]
+Description=Set power profile to Performance on AC plug
+
+[Service]
+Type=oneshot
+#RemainAfterExit=true
+ExecStart=/usr/bin/powerprofilesctl set performance
+
+[Install]
+WantedBy=power-ac.target

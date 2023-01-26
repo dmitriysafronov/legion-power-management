@@ -1,0 +1,10 @@
+[Unit]
+Description=Call user's power-ac target for [%i]
+After=power-ac.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sudo -u %i /bin/bash -c "export XDG_RUNTIME_DIR=/run/user/$(id -u %i); /usr/bin/systemctl --user start power-ac.target"
+
+[Install]
+WantedBy=power-ac.target

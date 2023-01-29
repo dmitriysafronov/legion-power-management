@@ -5,7 +5,7 @@ Requires=power-profiles-daemon.service
 #RefuseManualStart=yes
 
 [Service]
-ExecStart=/usr/local/bin/ppm-hw
+ExecStart=/usr/local/share/legion-power-management/bin/ppm-hw
 Restart=on-failure
 
 [Install]

@@ -6,7 +6,7 @@ Requires=power-profiles-daemon.service
 
 [Service]
 ExecStartPre=-/usr/bin/echo "1"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-ExecStart=/usr/local/bin/ppm-sw
+ExecStart=/usr/local/share/legion-power-management/bin/ppm-sw
 ExecStopPost=-/usr/bin/echo "0"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
 Restart=on-failure
 

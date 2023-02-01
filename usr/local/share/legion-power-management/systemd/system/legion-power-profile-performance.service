@@ -1,0 +1,10 @@
+[Unit]
+Description=Set legion power profile to Performance
+Before=power-profile-performance.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash -c "echo perf > /proc/acpi/legion_call"
+
+[Install]
+WantedBy=power-profile-performance.target

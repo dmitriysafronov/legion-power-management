@@ -1,0 +1,10 @@
+[Unit]
+Description=Set legion power profile to Power-saver
+Before=power-profile-power-saver.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash -c "echo quiet > /proc/acpi/legion_call"
+
+[Install]
+WantedBy=power-profile-power-saver.target

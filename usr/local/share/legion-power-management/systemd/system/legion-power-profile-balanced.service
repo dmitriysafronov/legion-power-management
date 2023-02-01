@@ -1,0 +1,10 @@
+[Unit]
+Description=Set legion power profile to Balanced
+Before=power-profile-balanced.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash -c "echo balanced > /proc/acpi/legion_call"
+
+[Install]
+WantedBy=power-profile-balanced.target

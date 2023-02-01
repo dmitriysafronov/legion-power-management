@@ -1,0 +1,1 @@
+/etc/systemd/system/default.target.wants/legion-power-profiles-monitor.service

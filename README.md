@@ -1,6 +1,6 @@
 # legion-power-management
 
-Connecting power-profiles-daemon and Lenovo hardware power profiles on systems without kernel support.
+Bridge between power-profiles-daemon and Lenovo hardware power profiles on systems without kernel support.
 
 You need to install acpi-call and legion-wmi kernel modules
 

@@ -1,4 +1,0 @@
-# Start specific systemd target on AC plug/unplug
-
-SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="0",RUN+="/usr/bin/systemctl start power-battery.target"
-SUBSYSTEM=="power_supply",ENV{POWER_SUPPLY_ONLINE}=="1",RUN+="/usr/bin/systemctl start power-ac.target"

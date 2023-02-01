@@ -6,36 +6,20 @@ lpm_logger () {
 }
 
 # Governor
-set_governor () {
+set_power_target () {
     case $1 in
-        performance|powersave)
-            for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor); do
-                echo "$1" > ${GOVERNOR}
-            done
+        performance|balanced|power-saver)
+            systemctl ${SYSTEMD_USER} start power-profile-$1.target
             ;;
         *)
-            lpm_logger "Error in [scaling_governor] configuration!"
-            ;;
-    esac
-}
-
-# Energy Performance
-set_epp () {
-    case $1 in
-        performance|power)
-            for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
-                echo "$1" > ${GOVERNOR}
-            done
-            ;;
-        *)
-            lpm_logger "Error in [energy_performance_preference] configuration!"
+            lpm_logger "Error in [power target] configuration!"
             ;;
     esac
 }
 
 # HW Power profile
 set_hwpp () {
-    if [[ -f /proc/acpi/legion_call ]]; then
+    if [ $EUID -eq 0 ] && [ -f /proc/acpi/legion_call ]; then
         case $1 in
             perf|balanced|quiet)
                 echo "$1" > /proc/acpi/legion_call || lpm_logger "Error setting HW power profile!"
@@ -52,21 +36,25 @@ set_hwpp () {
 
 set_profile_performance () {
     set_hwpp perf
-    set_governor performance
-    set_epp performance
+    set_power_target performance
 }
 
 set_profile_balanced () {
     set_hwpp balanced
-    set_governor performance
-    set_epp performance
+    set_power_target balanced
 }
 
 set_profile_power-saver () {
     set_hwpp quiet
-    set_governor powersave
-    set_epp power
+    set_power_target power-saver
 }
+
+#######################################################
+
+unset SYSTEMD_USER
+if [[ $EUID -ne 0 ]]; then
+   SYSTEMD_USER="--user"
+fi
 
 #######################################################
 

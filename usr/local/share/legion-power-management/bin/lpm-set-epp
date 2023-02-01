@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Logger
+lpm_logger () {
+    logger -t legion-power-management -s "$1"
+}
+
+# Energy Performance
+set_epp () {
+    case $1 in
+        performance|power)
+            for GOVERNOR in $(ls /sys/devices/system/cpu/cpu*/cpufreq/energy_performance_preference); do
+                echo "$1" > ${GOVERNOR}
+            done
+            ;;
+        *)
+            lpm_logger "Error in [energy_performance_preference] configuration!"
+            ;;
+    esac
+}
+
+set_epp $1

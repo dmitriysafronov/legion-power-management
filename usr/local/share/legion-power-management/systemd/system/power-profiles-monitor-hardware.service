@@ -2,10 +2,9 @@
 Description=Power profile monitor - Hardware
 After=power-profiles-daemon.service
 Requires=power-profiles-daemon.service
-#RefuseManualStart=yes
 
 [Service]
-ExecStart=/usr/local/share/legion-power-management/bin/ppm-hw
+ExecStart=/usr/local/share/legion-power-management/bin/power-profiles-monitor-hardware
 Restart=on-failure
 
 [Install]

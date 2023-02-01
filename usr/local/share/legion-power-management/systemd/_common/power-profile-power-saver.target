@@ -1,0 +1,4 @@
+[Unit]
+Description=Power profile - Power-saver
+DefaultDependencies=no
+Conflicts=power-profile-performance.target power-profile-balanced.target

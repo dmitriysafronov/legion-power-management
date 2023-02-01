@@ -1,11 +1,1 @@
-[Unit]
-Description=global Ideapad Gnome extension: access rights for [root:sudo] only
-
-[Service]
-Type=oneshot
-ExecStart=-/usr/bin/chown -R root:sudo /usr/local/share/gnome-shell/extensions/ideapad@laurento.frittella
-ExecStart=-/usr/bin/chmod -R o-rwx,ug+rX,u+w /usr/local/share/gnome-shell/extensions/ideapad@laurento.frittella
-RemainAfterExit=yes
-
-[Install]
-WantedBy=multi-user.target
+/usr/local/share/legion-power-management/systemd/system/ideapad-extension-access-rights.service

@@ -1,9 +1,1 @@
-[Unit]
-Description=Set power profile to Performance on AC plug
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/powerprofilesctl set performance
-
-[Install]
-WantedBy=power-ac.target
+/usr/local/share/legion-power-management/systemd/system/power-profile-performance-on-ac-plug.service

@@ -1,13 +1,1 @@
-[Unit]
-Description=Power profiles monitor - Software
-After=power-profiles-daemon.service
-Requires=power-profiles-daemon.service
-
-[Service]
-ExecStartPre=-/usr/bin/echo "1"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-ExecStart=/usr/local/share/legion-power-management/bin/power-profiles-monitor-software
-ExecStopPost=-/usr/bin/echo "0"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
-Restart=on-failure
-
-[Install]
-WantedBy=power-profiles-daemon.service
+../_common/power-profiles-monitor-software.service

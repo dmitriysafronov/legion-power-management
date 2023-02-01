@@ -1,9 +1,1 @@
-[Unit]
-Description=Power profiles monitor - Software
-
-[Service]
-ExecStart=/usr/local/share/legion-power-management/bin/power-profiles-monitor-software
-Restart=on-failure
-
-[Install]
-WantedBy=default.target
+../_common/power-profiles-monitor-software.service

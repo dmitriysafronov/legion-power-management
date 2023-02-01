@@ -6,4 +6,4 @@ Type=oneshot
 ExecStart=/usr/bin/powerprofilesctl set performance
 
 [Install]
-WantedBy=power-ac.target
+WantedBy=power-source-ac.target

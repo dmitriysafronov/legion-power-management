@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+# Logger
+lpm_logger () {
+    logger -t legion-power-management -s "$1"
+}
+
+# Governor
+set_power_target () {
+    case $1 in
+        ac|battery)
+            systemctl ${SYSTEMD_USER} start power-source-$1.target
+            ;;
+        *)
+            lpm_logger "Error in [power adapter] configuration!"
+            ;;
+    esac
+}
+
+#######################################################
+
+unset SYSTEMD_USER
+if [[ $EUID -ne 0 ]]; then
+   SYSTEMD_USER="--user"
+fi
+
+#######################################################
+
+# Monitor
+acpi_listen | while read LINE; do
+    ADAPTER_SW=$(echo ${LINE} | cut -s -d ' ' -f 4)
+    if [[ -n "${ADAPTER_SW}" ]]; then
+        case ${ADAPTER_SW} in
+            00000001)
+                set_power_target ac
+                ;;
+            00000000)
+                set_power_target battery
+                ;;
+            *)
+                lpm_logger "Error getting [power adapter] state: [${ADAPTER_SW}]!"
+                ;;
+        esac
+    fi
+done

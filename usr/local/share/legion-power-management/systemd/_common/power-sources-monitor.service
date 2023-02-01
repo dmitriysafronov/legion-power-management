@@ -1,0 +1,9 @@
+[Unit]
+Description=Power sources monitor
+
+[Service]
+ExecStart=/usr/local/share/legion-power-management/bin/power-sources-monitor
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

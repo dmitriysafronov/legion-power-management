@@ -1,11 +1,9 @@
 [Unit]
 Description=Power profile monitor - Hardware
-After=power-profiles-daemon.service
-Requires=power-profiles-daemon.service
 
 [Service]
 ExecStart=/usr/local/share/legion-power-management/bin/power-profiles-monitor-hardware
 Restart=on-failure
 
 [Install]
-WantedBy=power-profiles-daemon.service
+WantedBy=default.target

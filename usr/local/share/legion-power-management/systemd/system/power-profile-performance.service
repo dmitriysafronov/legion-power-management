@@ -1,0 +1,11 @@
+[Unit]
+Description=Set CPU to Performance
+
+[Service]
+Type=oneshot
+ExecStartPre=-/usr/bin/echo "1"	> /sys/devices/system/cpu/intel_pstate/hwp_dynamic_boost
+ExecStartPre=/usr/local/share/legion-power-management/bin/lpm-set-epp performance
+ExecStart=/usr/local/share/legion-power-management/bin/lpm-set-governor performance
+
+[Install]
+WantedBy=power-profile-performance.target

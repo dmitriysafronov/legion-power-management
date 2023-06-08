@@ -1,0 +1,10 @@
+[Unit]
+Description=user Ideapad Gnome extension: setup
+
+[Service]
+Type=oneshot
+ExecStart=-/usr/bin/gnome-extensions enable ideapad@laurento.frittella
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

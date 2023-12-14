@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 FROM=/usr/local/share/legion-power-management/systemd
 TO=/etc/systemd
@@ -17,7 +17,7 @@ link_unit() {
     done
 }
 
-install_system_unit() {
+install_unit_system() {
     if [[ -z "$1" ]]; then
         echo "Specify units list"
         exit 1
@@ -27,7 +27,7 @@ install_system_unit() {
     done
 }
 
-install_user_unit() {
+install_unit_user() {
     if [[ -z "$1" ]]; then
         echo "Specify units list"
         exit 1
@@ -49,7 +49,7 @@ link_unit user "ideapad-extension-setup.service"
 
 systemctl daemon-reload
 
-install_system_unit "\
+install_unit_system "\
     ideapad-extension-setup.service \
     legion-power-profile-balanced.service \
     legion-power-profile-performance.service \
@@ -57,4 +57,4 @@ install_system_unit "\
     legion-power-profiles-monitor.service \
     power-profile-performance-on-ac-plug.service"
 
-install_user_unit "ideapad-extension-setup.service"
+install_unit_user "ideapad-extension-setup.service"

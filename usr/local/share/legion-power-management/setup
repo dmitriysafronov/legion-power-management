@@ -3,41 +3,41 @@
 FROM=/usr/local/share/legion-power-management/systemd
 TO=/etc/systemd
 
-link_service() {
+link_unit() {
     if [[ -z "$1" ]]; then
-        echo "Specify {system|user} services kind"
+        echo "Specify {system|user} units kind"
         exit 1
     fi
     if [[ -z "$2" ]]; then
-        echo "Specify services list"
+        echo "Specify units list"
         exit 1
     fi
-    for SERVICEFILE in $2; do
-        ln -svf "${FROM}/$1/${SERVICEFILE}" "${TO}/$1/${SERVICEFILE}"
+    for UNITFILE in $2; do
+        ln -svf "${FROM}/$1/${UNITFILE}" "${TO}/$1/${UNITFILE}"
     done
 }
 
-install_system_service() {
+install_system_unit() {
     if [[ -z "$1" ]]; then
-        echo "Specify services list"
+        echo "Specify units list"
         exit 1
     fi
-    for SERVICEFILE in $1; do
-        systemctl enable "${SERVICEFILE}"
+    for UNITFILE in $1; do
+        systemctl enable "${UNITFILE}"
     done
 }
 
-install_user_service() {
+install_user_unit() {
     if [[ -z "$1" ]]; then
-        echo "Specify services list"
+        echo "Specify units list"
         exit 1
     fi
-    for SERVICEFILE in $1; do
-        systemctl enable --global "${SERVICEFILE}"
+    for UNITFILE in $1; do
+        systemctl enable --global "${UNITFILE}"
     done
 }
 
-link_service system "\
+link_unit system "\
     ideapad-extension-setup.service \
     legion-power-profile-balanced.service \
     legion-power-profile-performance.service \
@@ -45,11 +45,11 @@ link_service system "\
     legion-power-profiles-monitor.service \
     power-profile-performance-on-ac-plug.service"
 
-link_service user "ideapad-extension-setup.service"
+link_unit user "ideapad-extension-setup.service"
 
 systemctl daemon-reload
 
-install_system_service "\
+install_system_unit "\
     ideapad-extension-setup.service \
     legion-power-profile-balanced.service \
     legion-power-profile-performance.service \
@@ -57,4 +57,4 @@ install_system_service "\
     legion-power-profiles-monitor.service \
     power-profile-performance-on-ac-plug.service"
 
-install_user_service "ideapad-extension-setup.service"
+install_user_unit "ideapad-extension-setup.service"

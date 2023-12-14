@@ -1,0 +1,60 @@
+#!/usr/bin/env sh
+
+FROM=/usr/local/share/legion-power-management/systemd
+TO=/etc/systemd
+
+link_service() {
+    if [[ -z "$1" ]]; then
+        echo "Specify {system|user} services kind"
+        exit 1
+    fi
+    if [[ -z "$2" ]]; then
+        echo "Specify services list"
+        exit 1
+    fi
+    for SERVICEFILE in $2; do
+        ln -svf "${FROM}/$1/${SERVICEFILE}" "${TO}/$1/${SERVICEFILE}"
+    done
+}
+
+install_system_service() {
+    if [[ -z "$1" ]]; then
+        echo "Specify services list"
+        exit 1
+    fi
+    for SERVICEFILE in $1; do
+        systemctl enable "${SERVICEFILE}"
+    done
+}
+
+install_user_service() {
+    if [[ -z "$1" ]]; then
+        echo "Specify services list"
+        exit 1
+    fi
+    for SERVICEFILE in $1; do
+        systemctl enable --global "${SERVICEFILE}"
+    done
+}
+
+link_service system "\
+    ideapad-extension-setup.service \
+    legion-power-profile-balanced.service \
+    legion-power-profile-performance.service \
+    legion-power-profile-power-saver.service \
+    legion-power-profiles-monitor.service \
+    power-profile-performance-on-ac-plug.service"
+
+link_service user "ideapad-extension-setup.service"
+
+systemctl daemon-reload
+
+install_system_service "\
+    ideapad-extension-setup.service \
+    legion-power-profile-balanced.service \
+    legion-power-profile-performance.service \
+    legion-power-profile-power-saver.service \
+    legion-power-profiles-monitor.service \
+    power-profile-performance-on-ac-plug.service"
+
+install_user_service "ideapad-extension-setup.service"

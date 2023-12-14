@@ -1,12 +1,10 @@
 [Unit]
-Description=global Ideapad Gnome extension: setup
+Description=global Ideapad Gnome extension: Access rights
 
 [Service]
 Type=oneshot
 ExecStart=-/usr/bin/chown -R root:root /usr/local/share/gnome-shell/extensions/ideapad@laurento.frittella
 ExecStart=-/usr/bin/chmod -R og-w,a+rX,u+w /usr/local/share/gnome-shell/extensions/ideapad@laurento.frittella
-ExecStart=/usr/bin/env sh -c "echo 'ideapad_laptop' > /etc/modules-load.d/ideapad.conf"
-ExecStart=/usr/bin/env sh -c "echo 'ALL ALL=(ALL) NOPASSWD: /usr/bin/tee /sys/bus/platform/drivers/ideapad_acpi/VPC????\\:??/conservation_mode' > /etc/sudoers.d/ideapad"
 RemainAfterExit=yes
 
 [Install]

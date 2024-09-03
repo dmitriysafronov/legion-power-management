@@ -20,7 +20,7 @@ while true; do
         ;;
     esac
     POWER_PROFILE_OLD=$(powerprofilesctl get)
-    if [[ ${POWER_PROFILE_NEW} != ${POWER_PROFILE_OLD} ]] && ( [[ ${POWER_PROFILE_NEW} = 'balanced' ]] || [[ ${POWER_PROFILE_NEW} = 'performance' ]] || [[ ${POWER_PROFILE_NEW} = 'power-saver' ]] ); then
+    if [[ "${POWER_PROFILE_NEW}" != "${POWER_PROFILE_OLD}" ]] && { [[ "${POWER_PROFILE_NEW}" = 'balanced' ]] || [[ "${POWER_PROFILE_NEW}" = 'performance' ]] || [[ "${POWER_PROFILE_NEW}" = 'power-saver' ]]; }; then
         powerprofilesctl set "${POWER_PROFILE_NEW}"
     fi
     sleep 5

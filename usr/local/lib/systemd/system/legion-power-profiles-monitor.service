@@ -1,0 +1,11 @@
+[Unit]
+Description=Legion power profiles monitor
+Requires=power-profiles-monitor.service power-sources-monitor.service
+After=power-profiles-monitor.service power-sources-monitor.service
+
+[Service]
+ExecStart=/usr/local/libexec/legion-power-profiles-monitor
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

@@ -8,7 +8,3 @@ Bridge between power-profiles-daemon and Lenovo hardware power profiles on syste
 - [power-sources-monitor](https://github.com/DmitriySafronov/power-sources-monitor) scripts & systemd units bundle
 - [acpi_call](https://github.com/DmitriySafronov/acpi_call) kernel module
 - [legion-wmi](https://github.com/DmitriySafronov/legion-wmi) kernel module
-- [IdeaPad](https://extensions.gnome.org/extension/2992/ideapad/)  Gnome extension (installed into `/usr/local/share/gnome-shell/extensions/ideapad@laurento.frittella` directory)
-
-## Warning
-Remember to run setup script and reboot laptop.
